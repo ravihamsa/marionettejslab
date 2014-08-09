@@ -33,7 +33,7 @@ var topNavOptions = [{
 },{
     id:'customers',
     name:'Customers'
-}]
+}];
 
 
 var HeaderItemView = Marionette.ItemView.extend({
@@ -72,7 +72,8 @@ var HeaderView = Marionette.CompositeView.extend({
 
 var MyRouter = Marionette.AppRouter.extend({
     routes:{
-        '':'index'
+        '':'index',
+        ':pageId':'index'
     },
     index: function(){
         console.log(arguments);
