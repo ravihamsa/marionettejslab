@@ -38,18 +38,22 @@ var topNavOptions = [{
 
 var HeaderItemView = Marionette.ItemView.extend({
     tagName:'li',
-    modelEvents:{
-        'change:selected':'selectedChangeHandler'
-    },
-    template: _.template('<a href="#<%=id%>"> <%= name %></a>'),
+    template: _.template('<a href="#<%=id%>" class="action"> <%= name %></a>'),
     className:function(){
         if(this.model.get('selected')){
             return 'active'
         }
         return '';
     },
-    selectedChangeHandler: function(){
+    onChangeSelected: function(){
         this.$el.toggleClass('active', this.model.get('selected'));
+    },
+    behaviors:{
+        TriggerModelEvents:{},
+        AnchorActions:{}
+    },
+    onAction: function(action){
+        alert('child '+action);
     }
 })
 
@@ -57,18 +61,22 @@ var HeaderView = Marionette.CompositeView.extend({
 
     childView:HeaderItemView,
     childViewContainer:'ul',
-    ui:{
-        'node':'.test-link'
-    },
-    events:{
-        'click @ui.node':'clickHandler'
-    },
     clickHandler: function(e){
         e.preventDefault();
         console.log(arguments);
     },
-    template: _.template('<div> </div> <span class="test-link">test link</span>  <ul></ul>')
+    behaviors:{
+        AnchorActions:{},
+        TriggerCollectionEvents:{}
+    },
+    template: _.template('<div> </div> <a href="#testLink" class="action test-link">test link</span>  <ul></ul>  '),
+    onAction: function(action){
+        alert(action);
+    }
 })
+
+
+
 
 var MyRouter = Marionette.AppRouter.extend({
     routes:{
@@ -79,10 +87,25 @@ var MyRouter = Marionette.AppRouter.extend({
         console.log(arguments);
         var helpView = new HelpView();
         app.help.show(helpView);
+        var collection = new Backbone.Collection();
 
-        app.header.show(new HeaderView({
-            collection:new Backbone.Collection(topNavOptions)
-        }));
+        var headerView = new HeaderView({
+            collection:collection
+        });
+
+        headerView.on('all', function(){
+            console.log(arguments);
+        });
+        collection.reset(topNavOptions);
+        app.header.show(headerView);
+
+
+        var optionView = headerView.children.findByIndex(1);
+        optionView.on('all', function(){
+            console.log(arguments);
+        });
+        optionView.model.set('name', 'Ravi')
+
     }
 })
 
