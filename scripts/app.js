@@ -89,12 +89,33 @@ var HeaderView = Marionette.CompositeView.extend({
 
 var ToggleView = Marionette.ItemView.extend({
     template: _.template('<div class="js-toggle-but">But</div> <div class="js-toggle-body">Body</div> '),
-    template: _.template('<div class="js-toggle-but">But</div> <div class="js-toggle-body">Body</div> '),
     behaviors:{
         Toggle:{}
     }
 });
 
+
+
+
+
+var SingleSelectDropDownView = Selectable.SingleSelectView.extend({
+    template: _.template('<div class="js-toggle-but drop-down-but"><div class="js-summary-container"> </div> </div> <div class="js-toggle-body drop-down-body"> <div class="js-list-container"> </div></div>'),
+    behaviors:{
+        Toggle:{}
+    },
+    showSummary:true,
+    className:'drop-down'
+})
+
+
+var MultiSelectDropDownView = Selectable.MultiSelectView.extend({
+    template: _.template('<div class="js-toggle-but drop-down-but"><div class="js-summary-container"> </div> </div> <div class="js-toggle-body drop-down-body"> <div class="js-list-container"> </div></div>'),
+    behaviors:{
+        Toggle:{}
+    },
+    showSummary:true,
+    className:'drop-down'
+})
 
 
 
@@ -116,7 +137,7 @@ var ContentView = Marionette.LayoutView.extend({
             items:new Selectable.SingleSelectCollection([{id:1, name:'ravi'}, {id:2, name:'kavi', selected:true}, {id:3, name:'bhavi'}])
         })
 
-        this.singleSelect.show(new Selectable.SingleSelectView({
+        this.singleSelect.show(new SingleSelectDropDownView({
             model:singleSelectModel
         }))
 
@@ -125,7 +146,7 @@ var ContentView = Marionette.LayoutView.extend({
             items:new Selectable.MultiSelectCollection([{id:1, name:'ravi'}, {id:2, name:'kavi', selected:true}, {id:3, name:'bhavi'}])
         })
 
-        this.multiSelect.show(new Selectable.MultiSelectView({
+        this.multiSelect.show(new MultiSelectDropDownView({
             model:multiSelectModel
         }))
     }
