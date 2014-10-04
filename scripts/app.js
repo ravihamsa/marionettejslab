@@ -99,19 +99,27 @@ var ToggleView = Marionette.ItemView.extend({
 
 
 var SingleSelectDropDownView = Selectable.SingleSelectView.extend({
-    template: _.template('<div class="js-toggle-but drop-down-but"><div class="js-summary-container"> </div> </div> <div class="js-toggle-body drop-down-body"> <div class="js-list-container"> </div></div>'),
+    modelEvents:{
+        'selectionChange':'handleSelectionChange'
+    },
+    template: _.template('<div class="js-toggle-but drop-down-but"><div class="js-summary-container summary-container"> </div> </div> <div class="js-toggle-body drop-down-body"> <div class="js-list-container single-select"> </div></div>'),
     behaviors:{
         Toggle:{}
     },
     showSummary:true,
-    className:'drop-down'
+    className:'drop-down',
+    handleSelectionChange:function(){
+        this.$el.trigger('forceHideBody');
+    }
 })
 
 
 var MultiSelectDropDownView = Selectable.MultiSelectView.extend({
-    template: _.template('<div class="js-toggle-but drop-down-but"><div class="js-summary-container"> </div> </div> <div class="js-toggle-body drop-down-body"> <div class="js-list-container"> </div></div>'),
+    template: _.template('<div class="js-toggle-but drop-down-but"><div class="js-summary-container summary-container"> </div> </div> <div class="js-toggle-body drop-down-body"> <div class="js-list-container multi-select"> </div></div>'),
     behaviors:{
-        Toggle:{}
+        Toggle:{
+            multiSelect:true
+        }
     },
     showSummary:true,
     className:'drop-down'

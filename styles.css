@@ -1,14 +1,33 @@
+* {
+  box-sizing: border-box;
+}
 .drop-down {
   display: inline-block;
   width: 150px;
+  position: relative;
 }
 .drop-down .drop-down-body {
-  display: none;
   width: 100%;
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 0 0 3px 3px;
+  z-index: 3;
+  top: 100%;
+  border-top: 0;
 }
 .drop-down .drop-down-but {
   width: 100%;
   border: 1px solid #ccc;
   padding: 5px;
   border-radius: 3px;
+}
+.drop-down.open .drop-down-but {
+  border-radius: 3px 3px 0 0;
+}
+.drop-down .list-item {
+  display: block;
+}
+.drop-down .list-item a {
+  display: block;
 }
